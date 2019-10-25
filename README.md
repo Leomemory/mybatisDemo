@@ -1,2 +1,6 @@
 # mybatisDemo
 mybatis 相关
+
+PositionMapper.java中根据职位是教授的教师所教授的所有学生，实现多对多查询selectPositionStudentByPosId()未能调试成功
+PositionMapper.xml 中resultMap以及collection部分待调整
+PositionMapperTest中selectPositionStudentByPosId()方法用来调试
