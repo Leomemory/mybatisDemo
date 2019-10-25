@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 ，为了使用接口动态代理，这里必须是接口的全路径名-->
+<mapper namespace="com.zpc.mybatis.dao.SearchWhereset">
+    <select id="queryUserListByNameAndAge" resultType="com.zpc.mybatis.pojo.User">
+        select * from tb_user
+        <!--如果多出一个and，会自动去除，如果缺少and或者多出多个and则会报错-->
+        <where>
+            <if test="name!=null and name.trim()!=''">
+                and name like '%${name}%'
+            </if>
+            <if test="age!=null">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
+</mapper>

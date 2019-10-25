@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zpc.mybatis.dao.TeacherMapper">
+    <resultMap type="com.zpc.mybatis.pojo.Teacher" id="teacherPositionResultMap">
+        <id property="id" column="id"></id>
+        <result property="no" column="t_no"></result>
+        <result property="name" column="t_name"></result>
+        <!-- association：配置的一对一属性 -->
+        <!--property:名字，  javaType：类型-->
+        <association property="pos" javaType="com.zpc.mybatis.pojo.Position">
+            <id property="id" column="id"></id>
+            <result property="name" column="t_pos_name"></result>
+        </association>
+    </resultMap>
+
+    <select id="queryTeacherPositionResultMapById" parameterType="Integer" resultMap="teacherPositionResultMap">
+        select * from tb_teacher t left JOIN tb_position p on t.position_id = p.id where t.id = #{id}
+    </select>
+
+    <select id="queryTeacherPositionResultMap" resultMap="teacherPositionResultMap">
+        select * from tb_teacher t left join tb_position p on t.`position_id` = p.id
+    </select>
+</mapper>

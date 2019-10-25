@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zpc.mybatis.dao.PositionMapper">
+    <resultMap type="com.zpc.mybatis.pojo.Position" id="positionTeacherResultMap">
+        <id property="id" column="id"></id>
+        <result property="name" column="t_pos_name"></result>
+
+        <collection property="teacher" javaType="com.zpc.mybatis.pojo.Teacher" ofType="com.zpc.mybatis.pojo.Teacher">
+            <id property="id" column="t_id"/>
+            <result property="no" column="t_no"/>
+            <result property="name" column="t_name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap type="com.zpc.mybatis.pojo.Position" id="positionStudentResultMap">
+        <result property="name" column="t_pos_name"/>
+
+        <collection property="teacher" javaType="com.zpc.mybatis.pojo.Teacher" ofType="com.zpc.mybatis.pojo.Teacher" >
+            <result property="name" column="t_name"/>
+            <collection property="studentList" javaType="com.zpc.mybatis.pojo.Student" ofType="com.zpc.mybatis.pojo.Student">
+                <result property="name" column="t_stu_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="queryPositionTeacherResultMapById" resultMap="positionTeacherResultMap" parameterType="Integer">
+        select p.*,t.id t_id,t.t_name,t.t_no from tb_position p left join tb_teacher t on p.id = t.position_id where p.id = #{id}
+    </select>
+
+    <select id="queryPositionTeacherResultMap" resultMap="positionTeacherResultMap">
+        SELECT p.*,t.id t_id,t.t_name,t.t_no FROM tb_position p LEFT JOIN tb_teacher t ON p.id = t.position_id
+    </select>
+
+    <select id="selectPositionStudentByPosId" resultMap="positionStudentResultMap" parameterType="Integer">
+       SELECT p.t_pos_name, t.t_name, s.t_stu_name
+		FROM tb_position p
+		INNER JOIN tb_teacher t ON p.id = t.position_id
+		LEFT JOIN tb_stu_teach st ON st.t_teach_id = t.id
+		LEFT JOIN tb_student s ON s.id = st.t_stu_id
+		WHERE p.id = #{id}
+
+    </select>
+</mapper>
