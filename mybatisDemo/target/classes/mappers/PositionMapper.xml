@@ -15,9 +15,12 @@
     <resultMap type="com.zpc.mybatis.pojo.Position" id="positionStudentResultMap">
         <result property="name" column="t_pos_name"/>
 
-        <collection property="teacher" javaType="com.zpc.mybatis.pojo.Teacher" ofType="com.zpc.mybatis.pojo.Teacher" >
+<!--        一个职位可以对应多个教师，使用collection映射-->
+        <collection property="teacher" ofType="com.zpc.mybatis.pojo.Teacher" >
             <result property="name" column="t_name"/>
-            <collection property="studentList" javaType="com.zpc.mybatis.pojo.Student" ofType="com.zpc.mybatis.pojo.Student">
+
+<!--            一个老师可以有很多个学生，使用collection映射-->
+            <collection property="studentList" ofType="com.zpc.mybatis.pojo.Student">
                 <result property="name" column="t_stu_name"/>
             </collection>
         </collection>
